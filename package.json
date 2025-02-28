@@ -1,0 +1,22 @@
+{
+  "main": "index.js",
+  "name": "@storybook/react-native-mcp",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "bun index.ts",
+    "inspector": "bunx @modelcontextprotocol/inspector"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.0",
+    "@storybook/core": "0.0.0-pr-30071-sha-26d114f9",
+    "@storybook/csf": "^0.1.13",
+    "storybook": "0.0.0-pr-30071-sha-26d114f9",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "typescript": "^5.7.3"
+  }
+}
