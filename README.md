@@ -1,2 +1,2 @@
 mcp command
-`bun [your-path-here]/react-storybook-mcp/index.ts`
+`bun [your-path-here]/storybook-mcp/index.ts`

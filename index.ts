@@ -2,9 +2,6 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-// import { toId } from '@storybook/csf';
-// 0.0.0-pr-30071-sha-26d114f9 for build index
-
 process.env.CACHE_DIR = import.meta.dirname + "/cache";
 
 const server = new McpServer({
@@ -14,20 +11,20 @@ const server = new McpServer({
 
 server.tool(
   "get-stories",
-  "Get stories from the storybook",
+  "Get stories from storybook",
   {
     configDir: z
       .string()
       .min(1)
       .describe(
-        "The absolute path to directory containing the storybook config"
+        "The absolute path to directory containing the .storybook config folder"
       ),
   },
   async ({ configDir }) => {
-    const { buildIndex } = await import("@storybook/core/core-server");
+    const { buildIndex } = await import("storybook/internal/core-server");
+
     const index = await buildIndex({
       configDir,
-      outputFile: "index.json",
     });
 
     const content = Object.entries(index.entries)

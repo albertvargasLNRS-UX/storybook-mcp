@@ -1,6 +1,6 @@
 {
   "main": "index.js",
-  "name": "@storybook/react-native-mcp",
+  "name": "storybook-mcp",
   "type": "module",
   "version": "0.0.1",
   "private": true,
@@ -10,9 +10,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.6.0",
-    "@storybook/core": "0.0.0-pr-30071-sha-26d114f9",
     "@storybook/csf": "^0.1.13",
-    "storybook": "0.0.0-pr-30071-sha-26d114f9",
+    "storybook": "next",
     "zod": "^3.24.2"
   },
   "devDependencies": {
