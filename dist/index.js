@@ -42,12 +42,13 @@ async function tryToResolveConfigDir({ configDir }) {
 		"main.mjs",
 		"main.cjs"
 	];
-	const possibleDirs = [
-		path.isAbsolute(configDir) ? configDir : path.resolve(configDir),
-		path.resolve(process.cwd(), configDir),
-		path.join(process.cwd(), ".storybook"),
-		path.join(__dirname, configDir)
-	];
+	const cwd = process.cwd();
+	const parentDir = path.dirname(cwd);
+	const configDirNoDot = configDir.startsWith("./") ? configDir.slice(2) : configDir;
+	const baseDirs = configDir !== configDirNoDot ? [configDir, configDirNoDot] : [configDir];
+	let possibleDirs = [];
+	for (const base of baseDirs) possibleDirs.push(path.isAbsolute(base) ? base : path.resolve(base), path.resolve(cwd, base), path.join(cwd, ".storybook"), path.join(__dirname, base), path.resolve(parentDir, base), path.join(parentDir, ".storybook"));
+	possibleDirs = Array.from(new Set(possibleDirs));
 	let resolvedConfigDir = null;
 	for (const dir of possibleDirs) {
 		for (const mainFile of mainFiles) if (fs.existsSync(path.join(dir, mainFile))) {
@@ -61,7 +62,11 @@ async function tryToResolveConfigDir({ configDir }) {
 	} catch (error) {
 		return String(error);
 	}
-	else return [`Error building index with configDir ${resolvedConfigDir}`, `make sure you are passing the correct configDir`].join("\n\n");
+	else return [
+		`Error building index with configDir ${resolvedConfigDir}`,
+		`make sure you are passing the correct configDir`,
+		`Checked: ${possibleDirs.join(", ")}`
+	].join("\n\n");
 }
 async function getStories({ configDir }) {
 	try {
@@ -77,7 +82,7 @@ const server = new __modelcontextprotocol_sdk_server_mcp_js.McpServer({
 	name: "storybook",
 	version: "1.0.0"
 });
-server.tool("get-stories", "Get a list of story ids for your storybook project, use this to list stories.", { configDir: zod.z.string().min(1).describe("The absolute path to directory containing the .storybook config folder").default(`${process.cwd()}/.storybook`) }, async ({ configDir }) => {
+server.tool("get-stories", "Get a list of story ids for your storybook project, use this to list stories.", { configDir: zod.z.string().min(1).describe("The absolute path to directory containing the .storybook config folder (/the-full-path/to/your/project/.storybook).").default(`${process.cwd()}/.storybook`) }, async ({ configDir }) => {
 	return { content: [{
 		type: "text",
 		text: await getStories({ configDir })

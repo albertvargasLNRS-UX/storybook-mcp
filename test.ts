@@ -6,6 +6,8 @@ const run = async () => {
     "/Users/danielwilliams/Workspace/storybook/repro/sb-react-ex/.storybook",
     // Relative path
     "../repro/sb-react-ex/.storybook",
+    // this shit
+    "./../repro/sb-react-ex/.storybook",
   ];
 
   for (const configDir of examples) {

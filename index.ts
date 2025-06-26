@@ -17,7 +17,7 @@ server.tool(
       .string()
       .min(1)
       .describe(
-        "The absolute path to directory containing the .storybook config folder"
+        "The absolute path to directory containing the .storybook config folder (/the-full-path/to/your/project/.storybook)."
       )
       .default(`${process.cwd()}/.storybook`),
   },

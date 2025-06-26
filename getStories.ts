@@ -17,12 +17,27 @@ async function getIndex({ configDir }: { configDir: string }) {
 
 async function tryToResolveConfigDir({ configDir }: { configDir: string }) {
   const mainFiles = ["main.js", "main.ts", "main.mjs", "main.cjs"];
-  const possibleDirs = [
-    path.isAbsolute(configDir) ? configDir : path.resolve(configDir),
-    path.resolve(process.cwd(), configDir),
-    path.join(process.cwd(), ".storybook"),
-    path.join(__dirname, configDir),
-  ];
+  const cwd = process.cwd();
+  const parentDir = path.dirname(cwd);
+  const configDirNoDot = configDir.startsWith("./")
+    ? configDir.slice(2)
+    : configDir;
+  const baseDirs =
+    configDir !== configDirNoDot ? [configDir, configDirNoDot] : [configDir];
+
+  let possibleDirs: string[] = [];
+  for (const base of baseDirs) {
+    possibleDirs.push(
+      path.isAbsolute(base) ? base : path.resolve(base),
+      path.resolve(cwd, base),
+      path.join(cwd, ".storybook"),
+      path.join(__dirname, base),
+      path.resolve(parentDir, base),
+      path.join(parentDir, ".storybook")
+    );
+  }
+
+  possibleDirs = Array.from(new Set(possibleDirs));
 
   let resolvedConfigDir: string | null = null;
 
@@ -30,7 +45,6 @@ async function tryToResolveConfigDir({ configDir }: { configDir: string }) {
     for (const mainFile of mainFiles) {
       if (fs.existsSync(path.join(dir, mainFile))) {
         resolvedConfigDir = dir;
-
         break;
       }
     }
@@ -47,6 +61,7 @@ async function tryToResolveConfigDir({ configDir }: { configDir: string }) {
     return [
       `Error building index with configDir ${resolvedConfigDir}`,
       `make sure you are passing the correct configDir`,
+      `Checked: ${possibleDirs.join(", ")}`,
     ].join("\n\n");
   }
 }
