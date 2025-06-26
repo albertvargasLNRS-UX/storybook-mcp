@@ -1,6 +1,6 @@
 {
   "main": "dist/index.js",
-  "name": "storybook-mcp",
+  "name": "mcp-storybook",
   "type": "commonjs",
   "version": "0.0.1",
   "private": false,
