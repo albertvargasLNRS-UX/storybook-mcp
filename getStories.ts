@@ -55,13 +55,18 @@ async function tryToResolveConfigDir({ configDir }: { configDir: string }) {
     try {
       return getIndex({ configDir: resolvedConfigDir });
     } catch (error) {
-      return String(error);
+      return [
+        `Error building index with configDir ${resolvedConfigDir}`,
+        `${error}`,
+        `try again with an absolute path like /the-full-path/to/your/project/.storybook`,
+      ].join("\n\n");
     }
   } else {
     return [
       `Error building index with configDir ${resolvedConfigDir}`,
       `make sure you are passing the correct configDir`,
       `Checked: ${possibleDirs.join(", ")}`,
+      `try again with an absolute path like /the-full-path/to/your/project/.storybook`,
     ].join("\n\n");
   }
 }
