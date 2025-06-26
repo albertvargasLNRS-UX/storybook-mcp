@@ -2,7 +2,7 @@
   "main": "dist/index.js",
   "name": "mcp-storybook",
   "type": "commonjs",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": false,
   "bin": "dist/index.js",
   "scripts": {
