@@ -25,16 +25,49 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 const __modelcontextprotocol_sdk_server_mcp_js = __toESM(require("@modelcontextprotocol/sdk/server/mcp.js"));
 const __modelcontextprotocol_sdk_server_stdio_js = __toESM(require("@modelcontextprotocol/sdk/server/stdio.js"));
 const zod = __toESM(require("zod"));
+const path = __toESM(require("path"));
+const fs = __toESM(require("fs"));
 
 //#region getStories.ts
-async function getStories({ configDir }) {
+async function getIndex({ configDir }) {
 	process.env.CACHE_DIR = __dirname + "/cache";
 	const { buildIndex } = require("storybook/internal/core-server");
-	try {
-		const index = await buildIndex({ configDir });
-		return Object.entries(index.entries).filter(([_, entry]) => entry.type === "story").map(([storyId, _entry]) => storyId).join("\n");
+	const index = await buildIndex({ configDir });
+	return Object.entries(index.entries).filter(([_, entry]) => entry.type === "story").map(([storyId, _entry]) => storyId).join("\n");
+}
+async function tryToResolveConfigDir({ configDir }) {
+	const mainFiles = [
+		"main.js",
+		"main.ts",
+		"main.mjs",
+		"main.cjs"
+	];
+	const possibleDirs = [
+		path.isAbsolute(configDir) ? configDir : path.resolve(configDir),
+		path.resolve(process.cwd(), configDir),
+		path.join(process.cwd(), ".storybook"),
+		path.join(__dirname, configDir)
+	];
+	let resolvedConfigDir = null;
+	for (const dir of possibleDirs) {
+		for (const mainFile of mainFiles) if (fs.existsSync(path.join(dir, mainFile))) {
+			resolvedConfigDir = dir;
+			break;
+		}
+		if (resolvedConfigDir) break;
+	}
+	if (resolvedConfigDir) try {
+		return getIndex({ configDir: resolvedConfigDir });
 	} catch (error) {
-		return `Error building index with configDir ${configDir} and error\n${error}\n\nmake sure you are passing the correct configDir`;
+		return String(error);
+	}
+	else return [`Error building index with configDir ${resolvedConfigDir}`, `make sure you are passing the correct configDir`].join("\n\n");
+}
+async function getStories({ configDir }) {
+	try {
+		return getIndex({ configDir });
+	} catch (error) {
+		return tryToResolveConfigDir({ configDir });
 	}
 }
 
