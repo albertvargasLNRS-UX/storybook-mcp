@@ -31,7 +31,7 @@ async function getStories({ configDir }) {
 	process.env.CACHE_DIR = __dirname + "/cache";
 	const { buildIndex } = require("storybook/internal/core-server");
 	const index = await buildIndex({ configDir });
-	return Object.entries(index.entries).filter(([_, entry]) => entry.type === "story").map(([storyId, entry]) => `${entry.title}/${entry.name}: ${storyId}`).join("\n");
+	return Object.entries(index.entries).filter(([_, entry]) => entry.type === "story").map(([storyId, _entry]) => storyId).join("\n");
 }
 
 //#endregion
