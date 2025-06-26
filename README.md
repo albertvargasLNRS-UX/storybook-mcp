@@ -4,8 +4,15 @@ A Model Context Protocol server for interacting with Storybook.
 
 ## Usage
 
-```bash
-npx mcp-storybook
+```json
+{
+  "mcpServers": {
+    "storybook": {
+      "command": "npx",
+      "args": ["-y", "mcp-storybook@0.0.5"]
+    }
+  }
+}
 ```
 
 ## Tools
@@ -20,7 +27,7 @@ Retrieves a list of stories from a Storybook configuration.
 
 **Returns:**
 
-- List of stories in `{title}/{name}` format
+- List of story ids
 
 ## Technical Details
 
