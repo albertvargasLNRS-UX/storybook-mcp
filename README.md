@@ -9,7 +9,7 @@ A Model Context Protocol server for interacting with Storybook.
   "mcpServers": {
     "storybook": {
       "command": "npx",
-      "args": ["-y", "mcp-storybook@0.0.5"]
+      "args": ["-y", "mcp-storybook@latest"]
     }
   }
 }
