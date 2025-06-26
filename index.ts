@@ -33,6 +33,29 @@ server.tool(
   }
 );
 
+server.tool(
+  "get-story-url",
+  "Get the URL for a story by its story id.",
+  {
+    storyId: z.string().min(1).describe("The story id to get the URL for."),
+    baseUrl: z
+      .string()
+      .min(1)
+      .describe("Base URL of the Storybook instance.")
+      .default("http://localhost:6006"),
+  },
+  async ({ storyId, baseUrl }) => {
+    return {
+      content: [
+        {
+          type: "text",
+          text: `${baseUrl}/?path=/story/${storyId}`,
+        },
+      ],
+    };
+  }
+);
+
 // server.tool(
 //   'go-to-story',
 //   'Go to a story',

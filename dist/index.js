@@ -93,6 +93,15 @@ server.tool("get-stories", "Get a list of story ids for your storybook project, 
 		text: await getStories({ configDir })
 	}] };
 });
+server.tool("get-story-url", "Get the URL for a story by its story id.", {
+	storyId: zod.z.string().min(1).describe("The story id to get the URL for."),
+	baseUrl: zod.z.string().min(1).describe("Base URL of the Storybook instance.").default("http://localhost:6006")
+}, async ({ storyId, baseUrl }) => {
+	return { content: [{
+		type: "text",
+		text: `${baseUrl}/?path=/story/${storyId}`
+	}] };
+});
 async function main() {
 	const transport = new __modelcontextprotocol_sdk_server_stdio_js.StdioServerTransport();
 	console.error("Server starting...");

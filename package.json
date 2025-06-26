@@ -7,7 +7,7 @@
   "bin": "dist/index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "concurrently \"tsdown --watch\" \"node --watch dist/index.js\"",
+    "dev": "tsdown --watch",
     "build": "tsdown",
     "inspector": "npx @modelcontextprotocol/inspector",
     "test": "bun test.ts"
