@@ -1,21 +1,26 @@
 {
-  "main": "index.js",
+  "main": "dist/index.js",
   "name": "storybook-mcp",
-  "type": "module",
+  "type": "commonjs",
   "version": "0.0.1",
   "private": true,
+  "bin": "dist/index.js",
   "scripts": {
-    "start": "bun index.ts",
-    "inspector": "bunx @modelcontextprotocol/inspector"
+    "start": "node dist/index.js",
+    "dev": "concurrently \"tsdown --watch\" \"node --watch dist/index.js\"",
+    "build": "tsdown",
+    "inspector": "npx @modelcontextprotocol/inspector"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.6.0",
+    "@modelcontextprotocol/sdk": "^1.13.2",
     "@storybook/csf": "^0.1.13",
-    "storybook": "next",
-    "zod": "^3.24.2"
+    "storybook": "^9.0.13",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
+    "tsdown": "^0.12.9",
     "@types/node": "^22.13.5",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.3",
+    "concurrently": "^9.2.0"
   }
 }
