@@ -5,7 +5,7 @@ A Model Context Protocol server for interacting with Storybook.
 ## Usage
 
 ```bash
-bun [path-to]/storybook-mcp/index.ts
+npx mcp-storybook
 ```
 
 ## Tools
