@@ -20,13 +20,7 @@
     "@storybook/react-vite": "^9.0.13",
     "@storybook/react-native": "^9.0.9",
     "@storybook/react-native-web-vite": "^9.0.13",
-    "@storybook/nextjs-vite": "^9.0.13",
-    "@storybook/nextjs": "^9.0.13",
-    "@storybook/react-webpack5": "^9.0.13",
-    "@storybook/vue3-vite": "^9.0.13",
-    "@storybook/svelte-vite": "^9.0.13",
-    "@storybook/sveltekit": "^9.0.13",
-    "@storybook/angular": "^9.0.13"
+    "@storybook/nextjs": "^9.0.13"
   },
   "devDependencies": {
     "tsdown": "^0.12.9",
