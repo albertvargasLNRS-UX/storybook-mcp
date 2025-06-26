@@ -2,8 +2,12 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { buildIndex } from "storybook/internal/core-server";
+// import { execSync, spawnSync } from "child_process";
+// import { StoryIndex } from "storybook/internal/types";
+// import path from "path";
 
-process.env.CACHE_DIR = import.meta.dirname + "/cache";
+process.env.CACHE_DIR = __dirname + "/cache";
 
 const server = new McpServer({
   name: "storybook",
@@ -22,11 +26,14 @@ server.tool(
       ),
   },
   async ({ configDir }) => {
-    const { buildIndex } = await import("storybook/internal/core-server");
+    // Override process.cwd to return the parent directory of configDir
+    // process.chdir(path.resolve(configDir, ".."));
+    // const output = execSync(`npx storybook@latest index -c ${configDir}`);
+    // const index = JSON.parse(output.toString()) as StoryIndex;
 
-    const index = await buildIndex({
-      configDir,
-    });
+    console.log("configDir", configDir);
+    console.log("cwd", process.cwd());
+    const index = await buildIndex({ configDir });
 
     const content = Object.entries(index.entries)
       .filter(([_, entry]) => entry.type === "story")
