@@ -34,7 +34,6 @@ async function getStories({ configDir }) {
 		const index = await buildIndex({ configDir });
 		return Object.entries(index.entries).filter(([_, entry]) => entry.type === "story").map(([storyId, _entry]) => storyId).join("\n");
 	} catch (error) {
-		console.error(error);
 		return `Error building index with configDir ${configDir} and error\n${error}\n\nmake sure you are passing the correct configDir`;
 	}
 }
@@ -45,7 +44,7 @@ const server = new __modelcontextprotocol_sdk_server_mcp_js.McpServer({
 	name: "storybook",
 	version: "1.0.0"
 });
-server.tool("get-stories", "Get stories from storybook", { configDir: zod.z.string().min(1).describe("The absolute path to directory containing the .storybook config folder").default(`${process.cwd()}/.storybook`) }, async ({ configDir }) => {
+server.tool("get-stories", "Get a list of story ids for your storybook project, use this to list stories.", { configDir: zod.z.string().min(1).describe("The absolute path to directory containing the .storybook config folder").default(`${process.cwd()}/.storybook`) }, async ({ configDir }) => {
 	return { content: [{
 		type: "text",
 		text: await getStories({ configDir })
