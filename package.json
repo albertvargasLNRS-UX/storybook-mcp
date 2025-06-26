@@ -9,7 +9,8 @@
     "start": "node dist/index.js",
     "dev": "concurrently \"tsdown --watch\" \"node --watch dist/index.js\"",
     "build": "tsdown",
-    "inspector": "npx @modelcontextprotocol/inspector"
+    "inspector": "npx @modelcontextprotocol/inspector",
+    "test": "bun test.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.13.2",
@@ -21,6 +22,9 @@
     "tsdown": "^0.12.9",
     "@types/node": "^22.13.5",
     "typescript": "^5.8.3",
-    "concurrently": "^9.2.0"
+    "concurrently": "^9.2.0",
+    "@storybook/react-vite": "^9.0.13",
+    "@storybook/react-native": "^9.0.9",
+    "@storybook/react-native-web-vite": "^9.0.13"
   }
 }

@@ -25,22 +25,25 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 const __modelcontextprotocol_sdk_server_mcp_js = __toESM(require("@modelcontextprotocol/sdk/server/mcp.js"));
 const __modelcontextprotocol_sdk_server_stdio_js = __toESM(require("@modelcontextprotocol/sdk/server/stdio.js"));
 const zod = __toESM(require("zod"));
-const storybook_internal_core_server = __toESM(require("storybook/internal/core-server"));
 
+//#region getStories.ts
+async function getStories({ configDir }) {
+	process.env.CACHE_DIR = __dirname + "/cache";
+	const { buildIndex } = require("storybook/internal/core-server");
+	const index = await buildIndex({ configDir });
+	return Object.entries(index.entries).filter(([_, entry]) => entry.type === "story").map(([storyId, entry]) => `${entry.title}/${entry.name}: ${storyId}`).join("\n");
+}
+
+//#endregion
 //#region index.ts
-process.env.CACHE_DIR = __dirname + "/cache";
 const server = new __modelcontextprotocol_sdk_server_mcp_js.McpServer({
 	name: "storybook",
 	version: "1.0.0"
 });
 server.tool("get-stories", "Get stories from storybook", { configDir: zod.z.string().min(1).describe("The absolute path to directory containing the .storybook config folder") }, async ({ configDir }) => {
-	console.log("configDir", configDir);
-	console.log("cwd", process.cwd());
-	const index = await (0, storybook_internal_core_server.buildIndex)({ configDir });
-	const content = Object.entries(index.entries).filter(([_, entry]) => entry.type === "story").map(([_storyId, entry]) => `${entry.title}/${entry.name}`).join("\n");
 	return { content: [{
 		type: "text",
-		text: content
+		text: await getStories({ configDir })
 	}] };
 });
 async function main() {
