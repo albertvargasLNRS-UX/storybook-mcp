@@ -34,3 +34,5 @@ Retrieves a list of stories from a Storybook configuration.
 - Built using `@modelcontextprotocol/sdk`
 - Uses stdio transport for communication
 - Caches data in `./cache` relative to script location
+
+Unfortunately we need to install any framework that might be encountered to this package so that the index building doesn't fail.
