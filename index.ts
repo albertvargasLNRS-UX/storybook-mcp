@@ -11,14 +11,15 @@ const server = new McpServer({
 
 server.tool(
   "get-stories",
-  "Get stories from storybook",
+  "Get a list of story ids for your storybook project, use this to list stories.",
   {
     configDir: z
       .string()
       .min(1)
       .describe(
         "The absolute path to directory containing the .storybook config folder"
-      ),
+      )
+      .default(`${process.cwd()}/.storybook`),
   },
   async ({ configDir }) => {
     return {
